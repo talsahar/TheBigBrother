@@ -42,25 +42,20 @@ class GuestModel{
     
     func storeMultipleGuests(list:[GuestHolder],onComplete:@escaping([GuestHolder])->Void){
         let dispatchTask = DispatchGroup()
-        for holder in list{
+        
+        list.forEach{guest in
             dispatchTask.enter()
-            storeGuest(guestHolder: holder, onComplete: {holder in
-                dispatchTask.leave()
-            })
+            storeGuest(guestHolder: guest, onComplete: {_ in dispatchTask.leave()})
         }
-        dispatchTask.notify(queue: .main, execute: {
-            onComplete(list)
-        })
+        dispatchTask.enter()
+        onComplete(list)
     }
     
-    func storeGuest(guestHolder:GuestHolder, onComplete:@escaping (GuestHolder)->Void){
+    func storeGuest(guestHolder:GuestHolder, onComplete:@escaping (GuestHolder?)->Void){
         GuestsSql.instance.insert(holder: guestHolder)
         GuestFirebase.storeGuest(guest: guestHolder, onComplete: {error in
-            if error != nil{
-                onComplete(guestHolder)
-            }
+            error == nil ? onComplete(guestHolder) : onComplete(nil)
         })
-        
     }
     
     func loadAllGuestsAndObserve(){
@@ -68,24 +63,16 @@ class GuestModel{
         let lastupdateDate=LastUpdateTable.instnace.getLastUpdate(tableName: tableName)
         
         GuestFirebase.loadAllGuestsAndObserve(lastupdateDate) { holders in
-            if holders.count>0{
-                //update last update
-                var maxHolder=holders[0]
-                var maxValue:Double = 0
-                for holder in holders{
-                    GuestsSql.instance.insert(holder: holder)
-                    if (holder.lastUpdate?.toDouble())!>maxValue{
-                        maxHolder=holder
-                        maxValue=(maxHolder.lastUpdate?.toDouble())!
-                    }
-                }
-                LastUpdateTable.instnace.setLastUpdate(tableName: tableName, lastUpdate: Date.fromDouble(maxValue))
+            if !holders.isEmpty{
+                
+                holders.forEach{GuestsSql.instance.insert(holder: $0)}
+                let newLastUpdate = holders.map{$0.lastUpdate?.toDouble()}.max(by: {$0! < $1!})
+                LastUpdateTable.instnace.setLastUpdate(tableName: tableName, lastUpdate: Date.fromDouble(newLastUpdate!!))
                 
                 let guestsHolder=GuestsSql.instance.selectAll()
                 self.guestListNotification.post(data: guestsHolder)
                 
             }
-            
             
         }
         

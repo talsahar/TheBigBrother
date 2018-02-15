@@ -22,8 +22,8 @@ class GuestFirebase{
             }
             else{
                 Logger.log(message: "stored post \(guest.id) on firebase ", event: LogEvent.i)
+                onComplete(nil)
             }
-            onComplete(nil)
         }
     }
     

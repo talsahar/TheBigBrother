@@ -15,10 +15,10 @@ class PopupView: UIView {
         layer.borderWidth = 2
         layer.cornerRadius = 5
         layer.borderColor = UIColor.white.cgColor
-         dropShadow(v:self,color: .black, opacity: 1, offSet: CGSize(width: -1, height: 1), radius: 3, scale: true)
+        PopupView.dropShadow(v:self,color: .black, opacity: 1, offSet: CGSize(width: -1, height: 1), radius: 3, scale: true)
         
     }
-    func dropShadow(v:UIView,color: UIColor, opacity: Float = 0.5, offSet: CGSize, radius: CGFloat = 1, scale: Bool = true) {
+    static func dropShadow(v:UIView,color: UIColor, opacity: Float = 0.5, offSet: CGSize, radius: CGFloat = 1, scale: Bool = true) {
         v.layer.masksToBounds = false
         v.layer.shadowColor = color.cgColor
         v.layer.shadowOpacity = opacity

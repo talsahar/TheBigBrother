@@ -8,7 +8,7 @@
 
 import UIKit
 protocol LoginVCDelegate{
-    func onVerified()
+    func onVerified(username:String)
 
 }
 
@@ -39,12 +39,14 @@ class LoginVC: UIViewController {
         
     }
     @IBAction func loginButton(_ sender: Any) {
-        AuthenticationModel.instance.login(email: emailField.text!, password: passField.text!, onSuccess: {user in self.dismiss(animated: true , completion: {
-            self.delegate?.onVerified()
-        })}, onFail: {error in
-            Logger.log(message: error.localizedDescription, event: LogEvent.e)
-            self.errorLabel.text = "משתמש קיים"}
-        )
+        if validFields(){
+            AuthenticationModel.login(email: emailField.text!, password: passField.text!, onSuccess: {user in self.dismiss(animated: true , completion: {
+                self.delegate?.onVerified(username: user.displayName!)
+            })}, onFail: {error in
+                Logger.log(message: error.localizedDescription, event: LogEvent.e)
+                self.errorLabel.text = "משתמש אינו קיים או שסיסמתך אינה נכונה"}
+            )
+        }
     }
     
     @IBAction func onCancel(_ sender: Any) {
@@ -54,7 +56,6 @@ class LoginVC: UIViewController {
  
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
 }

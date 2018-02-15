@@ -11,13 +11,21 @@ import UIKit
 
 
 class AuthenticationVC: UIViewController, RegisterVCDelegate,LoginVCDelegate{
+  
     
     
-    @IBOutlet var popupView: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
         
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if let userName = AuthenticationModel.getCurrentUser()?.displayName{
+            onVerified(username: userName)
+
+        }
+    }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -39,8 +47,14 @@ class AuthenticationVC: UIViewController, RegisterVCDelegate,LoginVCDelegate{
         }
         
     }
+    @IBAction func onDisconnectSegue(segue: UIStoryboardSegue) {
+    AuthenticationModel.logout()
+        
+    }
     
-    func onVerified() {
+    func onVerified(username:String) {
+        Logger.log(message: "Authorized as \(username)", event: LogEvent.i)
+
         performSegue(withIdentifier: "mainMenuSegue", sender: nil)
     }
     

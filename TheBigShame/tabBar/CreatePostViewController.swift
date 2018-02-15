@@ -12,7 +12,7 @@ import TextFieldEffects
 
 
 
-class NewPostViewController: UITableViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate, UICollectionViewDelegate,UICollectionViewDataSource,VideoLinkPopupDelegate{
+class CreatePostViewController: UITableViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate, UICollectionViewDelegate,UICollectionViewDataSource,VideoLinkPopupDelegate{
    
     
     var guestMapArr: [(key: Guest, value: Bool)]?
@@ -32,7 +32,6 @@ class NewPostViewController: UITableViewController,UIImagePickerControllerDelega
             else{
                 self.imageView.image=UIImage(named:"add_picture")
             }
-            imageSpinner.isHidden=true
             imageSpinner.stopAnimating()
         }
     }
@@ -49,7 +48,6 @@ class NewPostViewController: UITableViewController,UIImagePickerControllerDelega
                 videoView.loadRequest(URLRequest.init(url: URL.init(string: "about:blank")!))
                 noVideoImage.isHidden=false
             }
-            videoSpinner.isHidden=true
             videoSpinner.stopAnimating()
         }
     }
@@ -64,7 +62,7 @@ class NewPostViewController: UITableViewController,UIImagePickerControllerDelega
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell=collectionView.dequeueReusableCell(withReuseIdentifier: "GuestCollectionViewCell", for: indexPath) as! GuestCollectionViewCell
-        var guestPair=guestMapArr![indexPath.row]
+        let guestPair=guestMapArr![indexPath.row]
         cell.name.text=String(describing: guestPair.key.name!)
         let imageName=guestPair.key.imageName
         if let img=UIImage(named:imageName!){
@@ -95,18 +93,14 @@ class NewPostViewController: UITableViewController,UIImagePickerControllerDelega
     @IBAction func onComplete(_ sender: Any) {
         
         let chosenGuests=GuestModel.filterChosens(list: guestMapArr!)
+      
+        let post=Post(id: nil, date: Date(), title: titleField.text!, userId: (AuthenticationModel.getCurrentUser()?.displayName!)!, content: content.text, imageUrl: nil, videoUrl: videoUrl?.absoluteString, guests: chosenGuests, comments: nil, lastUpdate: nil)
         
-        let post=Post(id: nil, date: Date(), title: titleField.text!, userId: "#@4234", content: content.text, imageUrl: nil, videoUrl: nil, guests: chosenGuests, comments: nil, lastUpdate: nil)
-        PostModel.instance.storePost(post: post, image: imageView.image, onComplete: {
-        post in
-            GuestModel.instance.storeMultipleGuests(list: post.guests, onComplete: { guests in
-                    self.dismiss(animated: true, completion: nil)
-            })
-        })
+        CentralDBDataModel.instance.storePost(post: post, image: chosenImage, onComplete: {post in self.dismiss(animated: true, completion: nil)})
+       
     }
     //picture
     @IBAction func onAddPicture(_ sender: Any) {
-        imageSpinner.isHidden=false
         imageSpinner.startAnimating()
         let picker = UIImagePickerController()
         picker.allowsEditing = true
@@ -114,7 +108,7 @@ class NewPostViewController: UITableViewController,UIImagePickerControllerDelega
         present(picker, animated: true)
     }
     
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }
     
@@ -136,7 +130,6 @@ class NewPostViewController: UITableViewController,UIImagePickerControllerDelega
     //video
     
     @IBAction func onAddVideo(_ sender: Any) {
-        videoSpinner.isHidden=false
         videoSpinner.startAnimating()
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let newViewController = storyBoard.instantiateViewController(withIdentifier: "VideoLinkPopup") as! VideoLinkPopup
@@ -145,6 +138,7 @@ class NewPostViewController: UITableViewController,UIImagePickerControllerDelega
     }
     
     @IBAction func onDeleteVideo(_ sender: Any) {
+        self.videoUrl = nil
     }
     func setVideo(url:URL?) {
         self.videoUrl=url
@@ -152,7 +146,6 @@ class NewPostViewController: UITableViewController,UIImagePickerControllerDelega
     
     func onVideoPopupCancel() {
         videoSpinner.stopAnimating()
-        videoSpinner.isHidden=true
     }
     
 

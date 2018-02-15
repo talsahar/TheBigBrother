@@ -19,6 +19,7 @@ class LocalImages {
     
     static func getImageFromFile(name:String)->UIImage?{
         let filename = getDocumentsDirectory().appendingPathComponent(name)
-        return UIImage(contentsOfFile:filename.path)
+        let image = UIImage(contentsOfFile:filename.path)
+        return image
     }
 }

@@ -3,10 +3,12 @@
 import Foundation
 import UIKit
 
-class ImageStorageManager {
+class ImageStorageModel {
     static func saveImage(image:UIImage, name:String, onComplete:@escaping (String?)->Void){
-        LocalImages.saveImageToFile(image: image, name: name)
         FirebaseImages.uploadImage(image: image, filename: name, onComplete: { url in
+            if url != nil{
+                LocalImages.saveImageToFile(image: image, name: name)
+            }
             onComplete(url)
         })
     }
@@ -20,6 +22,11 @@ class ImageStorageManager {
         }
         else{
             FirebaseImages.downloadByURL(forUrl: urlStr, onComplete: {image in
+                if image != nil {
+                    LocalImages.saveImageToFile(image: image!, name: localImageName)
+
+                }
+                
                 callback(image)
             })
             

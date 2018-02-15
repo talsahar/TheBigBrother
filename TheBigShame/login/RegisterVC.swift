@@ -9,7 +9,7 @@
 import UIKit
 
 protocol RegisterVCDelegate{
-    func onVerified()
+    func onVerified(username:String)
 
 }
 
@@ -29,8 +29,8 @@ class RegisterVC: UIViewController {
     
     @IBAction func registerButton(_ sender: Any) {
         if validFields() == true{
-            AuthenticationModel.instance.register(email: emailField.text!, password: passField.text!, nickname: nicknameField.text!, onSuccess: { (User) in
-                self.dismiss(animated: true, completion: {self.delegate?.onVerified()})
+            AuthenticationModel.register(email: emailField.text!, password: passField.text!, nickname: nicknameField.text!, onSuccess: { (User) in
+                self.dismiss(animated: true, completion: {self.delegate?.onVerified(username: User.displayName!)})
             }) { error in
                 Logger.log(message: error.localizedDescription, event: LogEvent.e)
                 self.errorLabel.text = "משתמש קיים"

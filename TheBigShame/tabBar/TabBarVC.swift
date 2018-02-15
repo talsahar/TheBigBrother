@@ -1,24 +1,28 @@
 //
-//  ViewController.swift
 //  TheBigShame
 //
-//  Created by admin on 03/02/2018.
+//  Created by admin on 15/02/2018.
 //  Copyright © 2018 admin. All rights reserved.
 //
 
 import UIKit
-class ViewController: UIViewController {
 
+class TabBarVC: UITabBarController {
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        self.selectedIndex = 3
+        
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-
+    @IBAction func tabBarUnwind(segue: UIStoryboardSegue) {
+        
+    }
+  
+  
+    
 }
-

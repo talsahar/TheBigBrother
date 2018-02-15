@@ -31,7 +31,7 @@ class Comment{
     }
     
     init(json:Dictionary<String, Any>){
-        self.commentId=json["id"] as! String
+        self.commentId=json["id"] as? String
         postId=json["postId"]  as! String
         authorId=json["authorId"]  as! String
         date=Date.fromDouble(json["date"] as! Double)
