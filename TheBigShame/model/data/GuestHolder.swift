@@ -8,7 +8,11 @@
 
 import Foundation
 
-class GuestHolder{
+class GuestHolder:FirebaseDataProtocol{
+  
+    
+   
+    
     var id:String
     var guest:Guest
     var postId:String
@@ -25,7 +29,9 @@ class GuestHolder{
 
         }
     }
-    
+    static func initByJson(json: Dictionary<String, Any>) -> FirebaseDataProtocol{
+        return GuestHolder(json: json)
+    }
     init(json:Dictionary<String, Any>){
         self.id=json["id"] as! String
         self.postId=json["postId"] as! String
@@ -40,21 +46,22 @@ class GuestHolder{
         json["id"] = id
         json["postId"] = postId
         json["guest"] = guest.name
-        lastUpdate=Date()
         json["lastUpdate"]=lastUpdate?.toDouble()
         return json
     }
+    func hasChanged(){
+        lastUpdate = Date()
+    }
+    
+ 
     
     static func buildList(postId:String,guests:[Guest]?)->[GuestHolder]{
         var guestlist=[GuestHolder]()
-        if let guests = guests{
-            for guest in guests{
-                guestlist.append(GuestHolder(id: nil,postId: postId,guest: guest, lastupdate: nil))
-            }
-        }
-        
+            guests?.forEach{guestlist.append(GuestHolder(id: nil, postId: postId, guest: $0, lastupdate: nil))}        
         return guestlist
     }
-    
+    func firebaseId() -> String {
+        return id
+    }
 }
 

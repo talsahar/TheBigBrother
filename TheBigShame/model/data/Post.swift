@@ -7,7 +7,12 @@
 //
 
 import Foundation
-class Post{
+class Post:FirebaseDataProtocol{
+   
+   
+    
+   
+    
     var id:String
     var date:Date
     var title:String
@@ -19,14 +24,14 @@ class Post{
     var comments:[Comment]
     var lastUpdate:Date?
     
-    init(id:String?,date:Date,title:String,userId:String,content:String,imageUrl:String?,videoUrl:String?,guests:[Guest]?,comments:[Comment]?,lastUpdate:Date?){
-        self.id = (id == nil) ? UUID().uuidString : id!
+    init(id:String = UUID().uuidString,date:Date,title:String,userId:String,content:String,imageUrl:String = "",videoUrl:String = "",guests:[Guest]?,comments:[Comment]?,lastUpdate:Date?){
+        self.id = id
         self.date=date
         self.title=title
         self.userId=userId
         self.content=content
-        self.imageUrl = (imageUrl != nil) ? imageUrl! : ""
-        self.videoUrl = (videoUrl != nil) ? videoUrl! : ""
+        self.imageUrl = imageUrl
+        self.videoUrl = videoUrl
         self.guests = GuestHolder.buildList(postId: self.id,guests: guests)
         self.comments = (comments != nil) ? comments! : [Comment]()
         if lastUpdate != nil{
@@ -46,7 +51,10 @@ class Post{
         guests = GuestHolder.buildList(postId: id,guests: nil)
         comments=[Comment]()
     }
-    
+    static func initByJson(json: Dictionary<String, Any>) -> FirebaseDataProtocol{
+        return Post(json: json)
+    }
+   
     func buildJson()->Dictionary<String, Any>{
         var json = Dictionary<String, Any>()
         json["id"] = id
@@ -56,10 +64,17 @@ class Post{
         json["content"]=content
         json["imageUrl"]=imageUrl
         json["videoUrl"]=videoUrl
-        lastUpdate = (lastUpdate == nil) ? Date() : lastUpdate
         json["lastUpdate"] = lastUpdate!.toDouble()
         return json
     }
+    func setChanged(){
+        lastUpdate = Date()
+    }
+    
+    func firebaseId() -> String {
+        return id
+    }
+    
    
 }
 

@@ -63,11 +63,10 @@ class CreatePostViewController: UITableViewController,UIImagePickerControllerDel
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell=collectionView.dequeueReusableCell(withReuseIdentifier: "GuestCollectionViewCell", for: indexPath) as! GuestCollectionViewCell
         let guestPair=guestMapArr![indexPath.row]
-        cell.name.text=String(describing: guestPair.key.name!)
-        let imageName=guestPair.key.imageName
-        if let img=UIImage(named:imageName!){
-            cell.imageView.image=img;
-        }
+        cell.name.text=String(describing: guestPair.key.name)
+        let imageUrl=guestPair.key.imageUrl
+        ImageStorageModel.getImage(urlStr: imageUrl!, callback: {image in cell.imageView.image = image})
+        
         cell.ticker.setSelected(guestPair.value, animated: true)
         let onSwitch={
             self.guestMapArr![indexPath.row].value = !self.guestMapArr![indexPath.row].value        }
@@ -78,8 +77,9 @@ class CreatePostViewController: UITableViewController,UIImagePickerControllerDel
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.imageSpinner.isHidden=true
-        self.videoSpinner.isHidden=true
+        
+        self.imageSpinner.stopAnimating()
+        self.videoSpinner.stopAnimating()
         content.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         
         if let tableView = self.view as? UITableView {
@@ -94,9 +94,9 @@ class CreatePostViewController: UITableViewController,UIImagePickerControllerDel
         
         let chosenGuests=GuestModel.filterChosens(list: guestMapArr!)
       
-        let post=Post(id: nil, date: Date(), title: titleField.text!, userId: (AuthenticationModel.getCurrentUser()?.displayName!)!, content: content.text, imageUrl: nil, videoUrl: videoUrl?.absoluteString, guests: chosenGuests, comments: nil, lastUpdate: nil)
+        let post=Post(date: Date(), title: titleField.text!, userId: (AuthenticationModel.getCurrentUser()?.displayName!)!, content: content.text, videoUrl: (videoUrl?.absoluteString)!, guests: chosenGuests, comments: nil, lastUpdate: nil)
         
-        CentralDBDataModel.instance.storePost(post: post, image: chosenImage, onComplete: {post in self.dismiss(animated: true, completion: nil)})
+        CentralDBDataModel.instance.savePost(post: post, image: chosenImage, onComplete: {post in self.dismiss(animated: true, completion: nil)})
        
     }
     //picture
@@ -110,6 +110,7 @@ class CreatePostViewController: UITableViewController,UIImagePickerControllerDel
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
+        imageSpinner.stopAnimating()    
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {

@@ -36,20 +36,20 @@ class AuthenticationModel{
     
     static func updateProfile(displayName:String?,photo:URL?,thenDo:@escaping ()->Void){
         if let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest(){
-            if !(displayName?.isEmpty)!{
-                changeRequest.displayName=displayName
-            }
+          
+            !(displayName?.isEmpty)! ? changeRequest.displayName = displayName : nil
+         
+            photo != nil ? changeRequest.photoURL = photo : nil
             
-            if photo != nil{
-                changeRequest.photoURL=photo
-            }
             changeRequest.commitChanges { (error) in
                 thenDo()
             }
         }
     }
     
-    
+    static func isAdministrator()->Bool{
+        return AuthenticationModel.getCurrentUser()?.email == "talsahar73@gmail.com"
+    }
     
     
 }

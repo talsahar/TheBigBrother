@@ -56,11 +56,8 @@ class ShowPostVC: UIViewController ,UICollectionViewDelegate,UICollectionViewDat
         let cell=collectionView.dequeueReusableCell(withReuseIdentifier: "GuestCollectionViewCell", for: indexPath) as! GuestCollectionViewCell
         let guest=post?.guests[indexPath.row].guest
         cell.name.text=guest?.name
-        let imageName=guest?.imageName
-        if let img=UIImage(named:imageName!){
-            cell.imageView.image=img;
-        }
-     
+        ImageStorageModel.getImage(urlStr: (guest?.imageUrl)!, callback: {image in cell.imageView.image = image})
+      
         return cell
     }
     

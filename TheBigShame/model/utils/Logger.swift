@@ -21,7 +21,7 @@ enum LogEvent: String {
 
 class Logger{
     private init(){}
-    private static var dateFormat = "yyyy-MM-dd hh:mm:ssSSS"
+    private static var dateFormat = "hh:mm:ssSSS"
     static var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
         formatter.dateFormat = dateFormat
@@ -40,7 +40,7 @@ class Logger{
                    funcName: String = #function) {
         
         #if DEBUG
-            print("\(Date().toLogString()) \(event.rawValue)[\(sourceFileName(filePath: fileName))]:\(line) \(column) \(funcName) -> \(message)")
+            print("\(Date().toLogString()) \(event.rawValue)[\(sourceFileName(filePath: fileName))]:\(line) \(funcName) -> \(message)")
         #endif
     }
     private class func sourceFileName(filePath: String) -> String {

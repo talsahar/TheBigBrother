@@ -14,6 +14,10 @@ class ImageStorageModel {
     }
     
     static func getImage(urlStr:String, callback:@escaping (UIImage?)->Void){
+        if urlStr == ""{
+            callback(nil)
+            return
+        }
         let url = URL(string: urlStr)
         let localImageName = url!.lastPathComponent
         let image=LocalImages.getImageFromFile(name: localImageName)

@@ -22,7 +22,7 @@ class NewsViewController: UIViewController, UITableViewDelegate,UITableViewDataS
             self.tableView.reloadData()
         })
         CentralDBDataModel.instance.loadAllPostsAndObserve()
-        
+
         
     }
     override func viewDidAppear(_ animated: Bool) {

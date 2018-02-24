@@ -8,7 +8,13 @@
 
 import Foundation
 
-class Comment{
+class Comment:FirebaseDataProtocol{
+    static func firebaseChildRef() -> String {
+        return "comments"
+    }
+    
+    
+    
     var commentId:String?
     var postId:String?
     var authorId:String?
@@ -29,15 +35,17 @@ class Comment{
         self.lastUpdate = (lastUpdate != nil) ? lastUpdate! : Date()
 
     }
-    
+    static func initByJson(json: Dictionary<String, Any>) -> FirebaseDataProtocol{
+        return Comment(json: json)
+    }
     init(json:Dictionary<String, Any>){
         self.commentId=json["id"] as? String
-        postId=json["postId"]  as! String
-        authorId=json["authorId"]  as! String
+        postId=json["postId"]  as? String
+        authorId=json["authorId"]  as? String
         date=Date.fromDouble(json["date"] as! Double)
-        title=json["title"]  as! String
-        content=json["content"]  as! String
-        isLike=json["isLike"] as! Bool
+        title=json["title"]  as? String
+        content=json["content"]  as? String
+        isLike=json["isLike"] as? Bool
         lastUpdate=Date.fromDouble(json["lastUpdate"] as! Double)
     }
     
@@ -53,5 +61,7 @@ class Comment{
         json["lastUpdate"] = lastUpdate?.toDouble()
         return json
     }
-    
+    func firebaseId() -> String {
+        return commentId!
+    }
 }

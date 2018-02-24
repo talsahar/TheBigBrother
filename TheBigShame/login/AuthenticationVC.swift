@@ -12,7 +12,7 @@ import UIKit
 
 class AuthenticationVC: UIViewController, RegisterVCDelegate,LoginVCDelegate{
   
-    
+   
     
     override func viewDidLoad() {
         super.viewDidLoad()

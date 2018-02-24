@@ -18,7 +18,6 @@ public class SqliteConnection{
             .userDomainMask).first{
             let path = dir.appendingPathComponent(dbName)
             if sqlite3_open(path.absoluteString, &database) == SQLITE_OK {
-                Logger.log(message: "Successfully opened connection to database at \(path.absoluteString)", event: LogEvent.i)
                 return database
             }
             else{

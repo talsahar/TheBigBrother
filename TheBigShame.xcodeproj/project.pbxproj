@@ -10,7 +10,7 @@
 		4B6F07BB283ABADEBEBBB84D /* Pods_TheBigShame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 897F1B6ACA348DAF31AB0843 /* Pods_TheBigShame.framework */; };
 		8400909B20338826001AAE9B /* ShowPostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8400909A20338826001AAE9B /* ShowPostVC.swift */; };
 		8402927B203087E1003D7564 /* GuestHolderSql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8402927A203087E1003D7564 /* GuestHolderSql.swift */; };
-		8402927D20309897003D7564 /* GuestFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8402927C20309897003D7564 /* GuestFirebase.swift */; };
+		8402927D20309897003D7564 /* GuestHolderFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8402927C20309897003D7564 /* GuestHolderFirebase.swift */; };
 		84281A9B202DB85B00FE5E1F /* SqliteConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84281A9A202DB85B00FE5E1F /* SqliteConnection.swift */; };
 		84281A9E202DB96D00FE5E1F /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 84281A9D202DB96D00FE5E1F /* libsqlite3.0.tbd */; };
 		84281AA3202DBC9E00FE5E1F /* PostSql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84281AA2202DBC9E00FE5E1F /* PostSql.swift */; };
@@ -21,6 +21,8 @@
 		844B741A2031D35700369DA5 /* RegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844B74192031D35700369DA5 /* RegisterVC.swift */; };
 		844B741C2031DAA700369DA5 /* AuthenticationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844B741B2031DAA700369DA5 /* AuthenticationVC.swift */; };
 		844B741E2031E1E400369DA5 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844B741D2031E1E400369DA5 /* LoginVC.swift */; };
+		8455A4072041D16D000D3242 /* AbstractDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8455A4062041D16D000D3242 /* AbstractDataModel.swift */; };
+		8455A40B2041D688000D3242 /* GenericFirebaseMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8455A40A2041D688000D3242 /* GenericFirebaseMapper.swift */; };
 		84560FFD202DF02A00841DA0 /* CommentSql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84560FFC202DF02A00841DA0 /* CommentSql.swift */; };
 		84561002202DF84000841DA0 /* PostFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84561001202DF84000841DA0 /* PostFirebase.swift */; };
 		84561004202E123200841DA0 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84561003202E123200841DA0 /* PostModel.swift */; };
@@ -44,11 +46,18 @@
 		8485D25B2035BC3E00CA0778 /* PressableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8485D25A2035BC3E00CA0778 /* PressableButton.swift */; };
 		8485D25D2035BE6700CA0778 /* MyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8485D25C2035BE6700CA0778 /* MyCell.swift */; };
 		8485D25F2035E43000CA0778 /* CentralDBDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8485D25E2035E43000CA0778 /* CentralDBDataModel.swift */; };
+		8485D2632036623400CA0778 /* GuestInfoPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8485D2622036623400CA0778 /* GuestInfoPopup.swift */; };
+		8485D2652036647400CA0778 /* GuestInfoTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8485D2642036647400CA0778 /* GuestInfoTableVC.swift */; };
+		8485D2672036651F00CA0778 /* GuestInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8485D2662036651F00CA0778 /* GuestInfoCell.swift */; };
 		8485DCB62025DFA90014C755 /* CreatePostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8485DCB52025DFA90014C755 /* CreatePostViewController.swift */; };
 		84A5CD9620272751008B01DA /* GuestHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A5CD9520272751008B01DA /* GuestHolder.swift */; };
 		84CBD2872030EE23006D708E /* PopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CBD2862030EE23006D708E /* PopupView.swift */; };
 		84CBD28A2030F1A7006D708E /* ViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CBD2892030F1A7006D708E /* ViewControllerExtension.swift */; };
-		84ECEE45202A62E1009F9608 /* GuestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84ECEE44202A62E1009F9608 /* GuestModel.swift */; };
+		84D0383D203F872B00E19919 /* NewGuestPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D0383C203F872B00E19919 /* NewGuestPopup.swift */; };
+		84D03841203F950100E19919 /* GuestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D03840203F950100E19919 /* GuestModel.swift */; };
+		84D03843203F9CD400E19919 /* GuestSql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D03842203F9CD400E19919 /* GuestSql.swift */; };
+		84D03845203FA4DA00E19919 /* GuestFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D03844203FA4DA00E19919 /* GuestFirebase.swift */; };
+		84ECEE45202A62E1009F9608 /* GuestHolderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84ECEE44202A62E1009F9608 /* GuestHolderModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,7 +74,7 @@
 		09C4609DB42F0212E26406E6 /* Pods-TheBigShame.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TheBigShame.release.xcconfig"; path = "Pods/Target Support Files/Pods-TheBigShame/Pods-TheBigShame.release.xcconfig"; sourceTree = "<group>"; };
 		8400909A20338826001AAE9B /* ShowPostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowPostVC.swift; sourceTree = "<group>"; };
 		8402927A203087E1003D7564 /* GuestHolderSql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestHolderSql.swift; sourceTree = "<group>"; };
-		8402927C20309897003D7564 /* GuestFirebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestFirebase.swift; sourceTree = "<group>"; };
+		8402927C20309897003D7564 /* GuestHolderFirebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestHolderFirebase.swift; sourceTree = "<group>"; };
 		84281A9A202DB85B00FE5E1F /* SqliteConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SqliteConnection.swift; sourceTree = "<group>"; };
 		84281A9D202DB96D00FE5E1F /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		84281A9F202DBA0B00FE5E1F /* TheBigShame-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TheBigShame-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -77,6 +86,8 @@
 		844B74192031D35700369DA5 /* RegisterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterVC.swift; sourceTree = "<group>"; };
 		844B741B2031DAA700369DA5 /* AuthenticationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationVC.swift; sourceTree = "<group>"; };
 		844B741D2031E1E400369DA5 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
+		8455A4062041D16D000D3242 /* AbstractDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractDataModel.swift; sourceTree = "<group>"; };
+		8455A40A2041D688000D3242 /* GenericFirebaseMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericFirebaseMapper.swift; sourceTree = "<group>"; };
 		84560FFC202DF02A00841DA0 /* CommentSql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentSql.swift; sourceTree = "<group>"; };
 		84561001202DF84000841DA0 /* PostFirebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostFirebase.swift; sourceTree = "<group>"; };
 		84561003202E123200841DA0 /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
@@ -104,11 +115,18 @@
 		8485D25A2035BC3E00CA0778 /* PressableButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PressableButton.swift; sourceTree = "<group>"; };
 		8485D25C2035BE6700CA0778 /* MyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCell.swift; sourceTree = "<group>"; };
 		8485D25E2035E43000CA0778 /* CentralDBDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CentralDBDataModel.swift; sourceTree = "<group>"; };
+		8485D2622036623400CA0778 /* GuestInfoPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestInfoPopup.swift; sourceTree = "<group>"; };
+		8485D2642036647400CA0778 /* GuestInfoTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestInfoTableVC.swift; sourceTree = "<group>"; };
+		8485D2662036651F00CA0778 /* GuestInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestInfoCell.swift; sourceTree = "<group>"; };
 		8485DCB52025DFA90014C755 /* CreatePostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewController.swift; sourceTree = "<group>"; };
 		84A5CD9520272751008B01DA /* GuestHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestHolder.swift; sourceTree = "<group>"; };
 		84CBD2862030EE23006D708E /* PopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupView.swift; sourceTree = "<group>"; };
 		84CBD2892030F1A7006D708E /* ViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerExtension.swift; sourceTree = "<group>"; };
-		84ECEE44202A62E1009F9608 /* GuestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestModel.swift; sourceTree = "<group>"; };
+		84D0383C203F872B00E19919 /* NewGuestPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGuestPopup.swift; sourceTree = "<group>"; };
+		84D03840203F950100E19919 /* GuestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestModel.swift; sourceTree = "<group>"; };
+		84D03842203F9CD400E19919 /* GuestSql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestSql.swift; sourceTree = "<group>"; };
+		84D03844203FA4DA00E19919 /* GuestFirebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestFirebase.swift; sourceTree = "<group>"; };
+		84ECEE44202A62E1009F9608 /* GuestHolderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestHolderModel.swift; sourceTree = "<group>"; };
 		897F1B6ACA348DAF31AB0843 /* Pods_TheBigShame.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TheBigShame.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0611B1D0B22EDD44991EA8D /* Pods-TheBigShame.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TheBigShame.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TheBigShame/Pods-TheBigShame.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -183,6 +201,10 @@
 				8485DCB52025DFA90014C755 /* CreatePostViewController.swift */,
 				842FC7F2202932F4001F5328 /* VideoLinkPopup.swift */,
 				845A207F202714D100DBAC5A /* GuestCollectionViewCell.swift */,
+				8485D2622036623400CA0778 /* GuestInfoPopup.swift */,
+				8485D2642036647400CA0778 /* GuestInfoTableVC.swift */,
+				8485D2662036651F00CA0778 /* GuestInfoCell.swift */,
+				84D0383C203F872B00E19919 /* NewGuestPopup.swift */,
 			);
 			path = tabBar;
 			sourceTree = "<group>";
@@ -190,14 +212,16 @@
 		8455331720266F3900DA9B60 /* model */ = {
 			isa = PBXGroup;
 			children = (
-				843A456120326788008B7F97 /* Policy.swift */,
+				84561003202E123200841DA0 /* PostModel.swift */,
+				84D03840203F950100E19919 /* GuestModel.swift */,
+				84ECEE44202A62E1009F9608 /* GuestHolderModel.swift */,
 				84344BC02030BB50009A1626 /* AuthenticationModel.swift */,
 				8485D25E2035E43000CA0778 /* CentralDBDataModel.swift */,
-				84ECEE44202A62E1009F9608 /* GuestModel.swift */,
-				84561003202E123200841DA0 /* PostModel.swift */,
+				843A456120326788008B7F97 /* Policy.swift */,
 				847B71A7202537B100DA330F /* data */,
 				84281A9C202DB86300FE5E1F /* db */,
 				847C8215202D16BA00FB67CB /* utils */,
+				8455A4062041D16D000D3242 /* AbstractDataModel.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -206,10 +230,11 @@
 			isa = PBXGroup;
 			children = (
 				84281AA2202DBC9E00FE5E1F /* PostSql.swift */,
+				84D03842203F9CD400E19919 /* GuestSql.swift */,
+				8402927A203087E1003D7564 /* GuestHolderSql.swift */,
 				84560FFC202DF02A00841DA0 /* CommentSql.swift */,
 				84281A9A202DB85B00FE5E1F /* SqliteConnection.swift */,
 				8456100A202E44A200841DA0 /* LastUpdateTable.swift */,
-				8402927A203087E1003D7564 /* GuestHolderSql.swift */,
 			);
 			path = localDb;
 			sourceTree = "<group>";
@@ -217,8 +242,10 @@
 		84560FFE202DF7EE00841DA0 /* FirebaseDb */ = {
 			isa = PBXGroup;
 			children = (
+				8455A40A2041D688000D3242 /* GenericFirebaseMapper.swift */,
 				84561001202DF84000841DA0 /* PostFirebase.swift */,
-				8402927C20309897003D7564 /* GuestFirebase.swift */,
+				8402927C20309897003D7564 /* GuestHolderFirebase.swift */,
+				84D03844203FA4DA00E19919 /* GuestFirebase.swift */,
 			);
 			path = FirebaseDb;
 			sourceTree = "<group>";
@@ -477,9 +504,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				847B719E2025340C00DA330F /* NewsViewController.swift in Sources */,
+				84D03843203F9CD400E19919 /* GuestSql.swift in Sources */,
 				8402927B203087E1003D7564 /* GuestHolderSql.swift in Sources */,
 				847C820F202D123700FB67CB /* LocalImages.swift in Sources */,
 				84560FFD202DF02A00841DA0 /* CommentSql.swift in Sources */,
+				8455A4072041D16D000D3242 /* AbstractDataModel.swift in Sources */,
 				844B741C2031DAA700369DA5 /* AuthenticationVC.swift in Sources */,
 				847C8217202D16CD00FB67CB /* Logger.swift in Sources */,
 				84561002202DF84000841DA0 /* PostFirebase.swift in Sources */,
@@ -491,13 +520,19 @@
 				84A5CD9620272751008B01DA /* GuestHolder.swift in Sources */,
 				847B71A02025349C00DA330F /* NewsTableViewCell.swift in Sources */,
 				844B741E2031E1E400369DA5 /* LoginVC.swift in Sources */,
+				8485D2672036651F00CA0778 /* GuestInfoCell.swift in Sources */,
 				842872992035A1C0006A048C /* TabBarVC.swift in Sources */,
 				8456100B202E44A200841DA0 /* LastUpdateTable.swift in Sources */,
 				847B71AB2025395F00DA330F /* Comment.swift in Sources */,
 				847B71A52025369400DA330F /* Post.swift in Sources */,
+				84D0383D203F872B00E19919 /* NewGuestPopup.swift in Sources */,
 				847C8210202D123700FB67CB /* ImageStorageModel.swift in Sources */,
+				84D03845203FA4DA00E19919 /* GuestFirebase.swift in Sources */,
+				84D03841203F950100E19919 /* GuestModel.swift in Sources */,
+				8455A40B2041D688000D3242 /* GenericFirebaseMapper.swift in Sources */,
+				8485D2632036623400CA0778 /* GuestInfoPopup.swift in Sources */,
 				8485D25B2035BC3E00CA0778 /* PressableButton.swift in Sources */,
-				84ECEE45202A62E1009F9608 /* GuestModel.swift in Sources */,
+				84ECEE45202A62E1009F9608 /* GuestHolderModel.swift in Sources */,
 				84561004202E123200841DA0 /* PostModel.swift in Sources */,
 				844B741A2031D35700369DA5 /* RegisterVC.swift in Sources */,
 				84344BC12030BB50009A1626 /* AuthenticationModel.swift in Sources */,
@@ -507,11 +542,12 @@
 				847B718B2025288900DA330F /* AppDelegate.swift in Sources */,
 				8485D25F2035E43000CA0778 /* CentralDBDataModel.swift in Sources */,
 				84CBD28A2030F1A7006D708E /* ViewControllerExtension.swift in Sources */,
+				8485D2652036647400CA0778 /* GuestInfoTableVC.swift in Sources */,
 				845A2080202714D100DBAC5A /* GuestCollectionViewCell.swift in Sources */,
 				8400909B20338826001AAE9B /* ShowPostVC.swift in Sources */,
 				8485D25D2035BE6700CA0778 /* MyCell.swift in Sources */,
 				8485DCB62025DFA90014C755 /* CreatePostViewController.swift in Sources */,
-				8402927D20309897003D7564 /* GuestFirebase.swift in Sources */,
+				8402927D20309897003D7564 /* GuestHolderFirebase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

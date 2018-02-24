@@ -11,79 +11,94 @@ import UIKit
 class CentralDBDataModel{
     
     let hasSyncedNotification = MyNotification<[Post]>(name: "centralDBNotification")
-
+    
     
     static let instance = CentralDBDataModel()
     
-    var allPosts = [Post]()
-    var allGuests = [GuestHolder]()
-    var waitingGuests = [GuestHolder]()
     var postDBObserver:Any?
+    var guestHolderDBObserver:Any?
     var guestDBObserver:Any?
     var mutex = DispatchGroup()
     var lock = NSLock()
     
     private init(){
-        postDBObserver = PostModel.instance.postListNotification.observe(callback: {posts in
-        self.lock.lock()
-        self.allPosts=posts!
-            self.syncGuestsToPosts()
-        self.lock.unlock()
+        
+        guestDBObserver = GuestModel.instance.notificationCenter.observe(callback: {data in
         })
         
-        guestDBObserver = GuestModel.instance.guestListNotification.observe(callback: {guests in
-        self.lock.lock()
-            self.allGuests = guests!
+        postDBObserver = PostModel.instance.notificationCenter.observe(callback: {posts in
+            self.lock.lock()
+            //self.allPosts=posts!
             self.syncGuestsToPosts()
-        self.lock.unlock()
-
+            self.lock.unlock()
+        })
+        
+        guestHolderDBObserver = GuestHolderModel.instance.notificationCenter.observe(callback: {guests in
+            self.lock.lock()
+            // self.allGuestHolders = guests!
+            self.syncGuestsToPosts()
+            self.lock.unlock()
+            
         })
         
         
     }
     
     func syncGuestsToPosts(){
-        for post in allPosts{
-            post.guests.removeAll()
-        }
+        let posts = PostModel.instance.data
+        posts.forEach{$0.guests.removeAll()}
         
-        for guest in allGuests{
-            allPosts.first(where: {$0.id == guest.postId})?.guests.append(guest)
+        let guestHolders = GuestHolderModel.instance.data
+        
+        for guest in guestHolders{
+            posts.first(where: {$0.id == guest.postId})?.guests.append(guest)
         }
-        hasSyncedNotification.post(data: allPosts)
-
+        hasSyncedNotification.post(data: posts)
+        
     }
     
     func loadAllPostsAndObserve(){
-        
-     PostModel.instance.loadAllPostsAndObserve()
-    GuestModel.instance.loadAllGuestsAndObserve()
+        GuestModel.instance.loadAndObserve()
+        PostModel.instance.loadAndObserve()
+        GuestHolderModel.instance.loadAndObserve()
         
         
     }
     
-    func storePost(post:Post,image:UIImage?, onComplete:@escaping (Post)->Void){
+    func savePost(post:Post,image:UIImage?, onComplete:@escaping (Post)->Void){
+        
         let storePost={
-            PostSql.instance.insert(post: post)
-            PostFirebase.storePost(post: post, onComplete: {post in
-                GuestModel.instance.storeMultipleGuests(list: post.guests, onComplete: { guests in
+            PostModel.instance.savePost(data: post){
+                _ in
+                GuestHolderModel.instance.storeMultipleGuests(list: post.guests){
+                    _ in
                     onComplete(post)
-                })
-            })
+                }
+            }
         }
-        //store image
-        if image != nil{
-            ImageStorageModel.saveImage(image: image!, name: post.id, onComplete: {url in
-                post.imageUrl=url!
-                storePost()
-            })
-        }
-            //store without an image
-        else{
+        
+        image == nil ? storePost() : ImageStorageModel.saveImage(image: image!, name: post.id, onComplete: {url in post.imageUrl=url!
             storePost()
-        }
+        })
         
     }
     
+    func saveGuest(guest:Guest,image:UIImage?, onComplete:@escaping (Guest)->Void){
+        let storeGuest={
+            GuestModel.instance.saveGuest(data: guest){
+                _ in
+                onComplete(guest)
+            }
+        }
+        
+        
+        image == nil ? storeGuest() : ImageStorageModel.saveImage(image: image!, name: String(guest.hashValue), onComplete: {
+            url in guest.imageUrl=url!
+            storeGuest()
+        })
+        
+        
+        
+    }
     
 }

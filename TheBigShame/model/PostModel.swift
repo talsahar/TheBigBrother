@@ -12,55 +12,39 @@ class PostModel{
     
     static let instance = PostModel()
     
-    var data : [Post]?
+    var data = [Post]()
     
-    let postListNotification = MyNotification<[Post]>(name: "postListNotification")
+    let notificationCenter = MyNotification<[Post]>(name: "postListNotification")
     
     var dataObserver:Any?
     
-    private init(){
-        dataObserver = postListNotification.observe { posts in
-            self.data=posts!
-        }
-    }
+    private init(){}
     
-    func storePost(post:Post,image:UIImage?, onComplete:@escaping (Post)->Void){
-        let storePost={
-            PostSql.instance.insert(post: post)
-            PostFirebase.storePost(post: post, onComplete: {post in
-                onComplete(post)
-            })
+    func savePost(data:Post, onComplete:@escaping (Post)->Void){
+        data.setChanged()
+            PostSql.instance.insert(post: data)
+        PostFirebase.instance.store(data: data, onComplete: {data in onComplete(data as! Post)})
         }
-        
-        //store image
-        if image != nil{
-            ImageStorageModel.saveImage(image: image!, name: post.id, onComplete: {url in
-                post.imageUrl=url!
-                storePost()
-            })
-        }
-            //store without an image
-        else{
-            storePost()
-        }
-        
-    }
     
-    func loadAllPostsAndObserve(){
-        
+    
+    func loadAndObserve(){
+        PostFirebase.instance.clearObservers()
         let tableName=PostSql.instance.TABLE_NAME
         let lastupdateDate=LastUpdateTable.instnace.getLastUpdate(tableName: tableName)
         
-        PostFirebase.loadAllPostsAndObserve(lastupdateDate) { posts in
-            
-            posts.forEach{PostSql.instance.insert(post: $0)}
-            
-            let newLastUpdate = posts.map{$0.lastUpdate?.toDouble()}.max(by: {$0! < $1!})
-            LastUpdateTable.instnace.setLastUpdate(tableName: tableName, lastUpdate: Date.fromDouble(newLastUpdate!!))
-            
-            let posts=PostSql.instance.selectAll()
-            self.postListNotification.post(data: posts)
-            
+        PostFirebase.instance.loadAllDataAndObserve(lastupdateDate) { posts in
+            if posts.count > 0{
+                let posts = posts as! [Post]
+                posts.forEach{PostSql.instance.insert(post: $0)}
+                
+                var newLastUpdate = posts.map{$0.lastUpdate?.toDouble()}.max(by: {$0! < $1!})
+                newLastUpdate = newLastUpdate!! + 1
+                LastUpdateTable.instnace.setLastUpdate(tableName: tableName, lastUpdate: Date.fromDouble(newLastUpdate!!))
+                
+                self.loadAndObserve()
+            }
+            self.data = PostSql.instance.selectAll()
+            self.notificationCenter.post(data: self.data)
         }
         
     }

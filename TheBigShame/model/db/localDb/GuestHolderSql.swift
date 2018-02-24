@@ -7,12 +7,12 @@
 //
 
 import Foundation
-class GuestsSql{
+class GuestHolderSql{
     private init(){
         createTable()
     }
     
-    static let instance=GuestsSql()
+    static let instance=GuestHolderSql()
     
     let connection = SqliteConnection.getConnection()
     
@@ -28,7 +28,7 @@ class GuestsSql{
             + ROW_ID + " TEXT PRIMARY KEY, "
             + GUEST_NAME + " TEXT, "
             + POST_ID + " TEXT, "
-            + LAST_UPDATE + " DOUBLE)", nil, nil, &errormsg);
+            + LAST_UPDATE + " DOUBLE)", nil, nil, &errormsg)
         
         if(result != 0){
             Logger.log(message: "couldnt create guest sqlite table", event: LogEvent.e)
@@ -44,7 +44,7 @@ class GuestsSql{
         if (sqlite3_prepare_v2(connection,query,-1,&sqlite3_stmt,nil) == SQLITE_OK){
             
             let id=holder.id.cString(using: .utf8)
-            let guestName=holder.guest.name?.cString(using: .utf8)
+            let guestName=holder.guest.name.cString(using: .utf8)
             let postId=holder.postId.cString(using: .utf8)
            
             if holder.lastUpdate == nil {
@@ -55,6 +55,7 @@ class GuestsSql{
             sqlite3_bind_text(sqlite3_stmt, 1, id,-1,nil)
             sqlite3_bind_text(sqlite3_stmt, 2, guestName,-1,nil)
             sqlite3_bind_text(sqlite3_stmt, 3, postId,-1,nil)
+            
             sqlite3_bind_double(sqlite3_stmt, 4, lastupdate!)
             
             if(sqlite3_step(sqlite3_stmt) == SQLITE_DONE){

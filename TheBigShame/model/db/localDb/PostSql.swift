@@ -37,13 +37,15 @@ class PostSql{
             + POST_CONTENT + " TEXT, "
             + POST_IMAGE_URL + " TEXT, "
             + POST_VIDEO_URL + " TEXT, "
-            + LAST_UPDATE + " DOUBLE)", nil, nil, &errormsg);
+            + LAST_UPDATE + " DOUBLE)", nil, nil, &errormsg)
         
         if(result != 0){
             Logger.log(message: "couldnt create post sqlite table", event: LogEvent.e)
-            return
         }
-        Logger.log(message: "post sqlite table has been successfully created", event: LogEvent.i)
+        else{
+            Logger.log(message: "post sqlite table has been successfully created", event: LogEvent.i)
+
+        }
     }
     
     func insert(post:Post){
@@ -79,7 +81,7 @@ class PostSql{
             }
         }
         else{
-            Logger.log(message: "error on preparing sqlite insert query", event: LogEvent.e)
+            Logger.log(message: "error while preparing sqlite insert query", event: LogEvent.e)
         }
         sqlite3_finalize(sqlite3_stmt)
     }
@@ -97,12 +99,12 @@ class PostSql{
                 let postContent =  String(validatingUTF8:sqlite3_column_text(sqlite3_stmt,4))
                 let postImageUrl =  String(validatingUTF8:sqlite3_column_text(sqlite3_stmt,5))
                 let postVideoUrl=String(validatingUTF8:sqlite3_column_text(sqlite3_stmt,6))
-                let postLastupdate =  Date.fromDouble(Double(sqlite3_column_double(sqlite3_stmt,8)))
+                let postLastupdate =  Date.fromDouble(Double(sqlite3_column_double(sqlite3_stmt,7)))
                 
-                let post=Post(id: postId!, date: postDate, title: postTitle!, userId: postUserId!, content: postContent!, imageUrl: postImageUrl, videoUrl: postVideoUrl, guests: nil, comments: nil,lastUpdate:postLastupdate)
+                let post=Post(id: postId!, date: postDate, title: postTitle!, userId: postUserId!, content: postContent!, imageUrl: postImageUrl!, videoUrl: postVideoUrl!, guests: nil, comments: nil,lastUpdate:postLastupdate)
                 postlist.append(post)
                 
-                Logger.log(message: "post \(post.id) has been loaded from local firebase",event: LogEvent.i)
+                Logger.log(message: "post \(post.id) has been loaded from local cache",event: LogEvent.i)
             }
         }
         else{
