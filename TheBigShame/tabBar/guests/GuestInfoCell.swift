@@ -14,7 +14,9 @@ class GuestInfoCell: MyCell {
     @IBOutlet var name: UILabel!
     var guest:Guest?{
         didSet{
-            ImageStorageModel.getImage(urlStr: (guest?.imageUrl!)!, callback: {image in self.profileImage.image = image})
+            if guest?.imageUrl != nil{
+              ImageStorageModel.getImage(urlStr: (guest?.imageUrl!)!, callback: {image in self.profileImage.image = image})
+            }
             name.text = guest?.name
         }
     }

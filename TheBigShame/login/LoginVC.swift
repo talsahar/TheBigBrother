@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftSpinner
 protocol LoginVCDelegate{
     func onVerified(username:String)
 
@@ -40,9 +41,13 @@ class LoginVC: UIViewController {
     }
     @IBAction func loginButton(_ sender: Any) {
         if validFields(){
-            AuthenticationModel.login(email: emailField.text!, password: passField.text!, onSuccess: {user in self.dismiss(animated: true , completion: {
+            SwiftSpinner.show("Signing in..")
+            AuthenticationModel.login(email: emailField.text!, password: passField.text!, onSuccess: {user in
+                SwiftSpinner.hide()
+                self.dismiss(animated: true , completion: {
                 self.delegate?.onVerified(username: user.displayName!)
             })}, onFail: {error in
+                SwiftSpinner.hide()
                 Logger.log(message: error.localizedDescription, event: LogEvent.e)
                 self.errorLabel.text = "משתמש אינו קיים או שסיסמתך אינה נכונה"}
             )

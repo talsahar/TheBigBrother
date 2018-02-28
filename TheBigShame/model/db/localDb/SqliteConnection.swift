@@ -9,22 +9,26 @@
 import Foundation
 public class SqliteConnection{
     
+    static let instnace = SqliteConnection()
     static let dbName="TheBigShameDB"
+    var connection:OpaquePointer?
     
-    static func getConnection() -> OpaquePointer? {
-        
-        var database: OpaquePointer? = nil
+    private init() {
         if let dir = FileManager.default.urls(for: .documentDirectory, in:
             .userDomainMask).first{
-            let path = dir.appendingPathComponent(dbName)
-            if sqlite3_open(path.absoluteString, &database) == SQLITE_OK {
-                return database
+            let path = dir.appendingPathComponent(SqliteConnection.dbName)
+            if sqlite3_open(path.absoluteString, &connection) == SQLITE_OK {
+                Logger.log(message: "SQLITE connection successfully opened.", event: LogEvent.i)
             }
             else{
                 Logger.log(message: "Unable to open database.", event: LogEvent.e)
             }
         }
-        return nil
+    }
+    
+    static func getConnection() -> OpaquePointer? {
+        return instnace.connection
+   
     }
     
     

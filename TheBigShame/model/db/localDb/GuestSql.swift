@@ -54,7 +54,7 @@ class GuestSql{
         
         if (sqlite3_prepare_v2(connection,query,-1,&sqlite3_stmt,nil) == SQLITE_OK){
          
-            let guest_id = guest.hashValue
+            let guest_id = String(guest.hashValue).cString(using: .utf8)
             let guest_name = guest.name.cString(using: .utf8)
             let guest_age = guest.age
             let guest_descrption=guest.description.cString(using: .utf8)
@@ -63,7 +63,7 @@ class GuestSql{
             let isDeleted = guest.isDeleted.description.cString(using: .utf8)
             let guest_lastupdate = guest.lastUpdate?.toDouble()
             
-            sqlite3_bind_int64(sqlite3_stmt, 1, sqlite3_int64(guest_id))
+            sqlite3_bind_text(sqlite3_stmt, 1, guest_id,-1,nil)
             sqlite3_bind_text(sqlite3_stmt, 2, guest_name,-1,nil)
             sqlite3_bind_int(sqlite3_stmt, 3, Int32(guest_age))
             sqlite3_bind_text(sqlite3_stmt, 4, guest_descrption,-1,nil)
@@ -92,7 +92,7 @@ class GuestSql{
         if (sqlite3_prepare_v2(connection,"SELECT * from \(TABLE_NAME);",-1,&sqlite3_stmt,nil) == SQLITE_OK){
             while(sqlite3_step(sqlite3_stmt) == SQLITE_ROW){
                 
-                let guest_id = Int(sqlite3_column_int(sqlite3_stmt, 0))
+                let guest_id = String(validatingUTF8:sqlite3_column_text(sqlite3_stmt,0))
                 let guest_name = String(validatingUTF8:sqlite3_column_text(sqlite3_stmt,1))
                 let guest_age = Int(sqlite3_column_int(sqlite3_stmt, 2))
                 let guest_description = String(validatingUTF8:sqlite3_column_text(sqlite3_stmt,3))
@@ -101,7 +101,7 @@ class GuestSql{
                 let isDeleted = String(validatingUTF8:sqlite3_column_text(sqlite3_stmt,6))
                 let lastupdate =  Date.fromDouble(Double(sqlite3_column_double(sqlite3_stmt,7)))
 
-                let guest = Guest(id:guest_id,name: guest_name!, gender: gender!, age: guest_age, description: guest_description!, imageUrl: guest_imageurl!,lastUpdate: lastupdate,isDeleted: Bool(isDeleted!)!)
+                let guest = Guest(id:Int(guest_id!)!,name: guest_name!, gender: gender!, age: guest_age, description: guest_description!, imageUrl: guest_imageurl!,lastUpdate: lastupdate,isDeleted: Bool(isDeleted!)!)
                
                 guestList.append(guest)
                 

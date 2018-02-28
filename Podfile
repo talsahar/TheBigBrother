@@ -13,5 +13,5 @@ pod 'Firebase/Storage'
 
 pod 'TextFieldEffects'
 pod 'AIFlatSwitch', '~> 1.0.1'
-
+pod "SwiftSpinner"
 end

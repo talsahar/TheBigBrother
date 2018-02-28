@@ -17,6 +17,11 @@ class GuestModel{
     
     private init() {}
     
+    func delete(guest:Guest,onComplete:@escaping (Guest)->Void){
+        guest.isDeleted = true
+        saveGuest(data: guest, onComplete: onComplete)
+    }
+    
     func saveGuest(data:Guest,onComplete:@escaping (Guest)->Void){
         data.hasChanged()
         GuestSql.instance.insert(guest: data)
@@ -43,10 +48,12 @@ class GuestModel{
                 LastUpdateTable.instnace.setLastUpdate(tableName: tableName, lastUpdate: Date.fromDouble(newLastUpdate!!))
                 
                 self.loadAndObserve()
+                self.data = GuestSql.instance.selectAll()
+                self.notificationCenter.post(data: self.data.filter{!$0.isDeleted})
             }
-            self.data = GuestSql.instance.selectAll()
-            self.notificationCenter.post(data: self.data.filter{!$0.isDeleted})
         }
+        self.data = GuestSql.instance.selectAll()
+        self.notificationCenter.post(data: self.data.filter{!$0.isDeleted})
     }
 }
 
@@ -57,7 +64,9 @@ extension GuestModel{
         var dic=[Guest:Bool]()
         for guest in GuestModel.instance.data
         {
-            dic[guest]=false
+            if guest.isDeleted == false{
+                dic[guest]=false
+            }
         }
         return Array(dic)
     }

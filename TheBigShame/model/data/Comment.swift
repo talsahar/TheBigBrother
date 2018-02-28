@@ -35,9 +35,7 @@ class Comment:FirebaseDataProtocol{
         self.lastUpdate = (lastUpdate != nil) ? lastUpdate! : Date()
 
     }
-    static func initByJson(json: Dictionary<String, Any>) -> FirebaseDataProtocol{
-        return Comment(json: json)
-    }
+   
     init(json:Dictionary<String, Any>){
         self.commentId=json["id"] as? String
         postId=json["postId"]  as? String

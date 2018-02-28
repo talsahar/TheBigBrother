@@ -101,7 +101,7 @@ class PostSql{
                 let postVideoUrl=String(validatingUTF8:sqlite3_column_text(sqlite3_stmt,6))
                 let postLastupdate =  Date.fromDouble(Double(sqlite3_column_double(sqlite3_stmt,7)))
                 
-                let post=Post(id: postId!, date: postDate, title: postTitle!, userId: postUserId!, content: postContent!, imageUrl: postImageUrl!, videoUrl: postVideoUrl!, guests: nil, comments: nil,lastUpdate:postLastupdate)
+                let post=Post(id: postId!, date: postDate, title: postTitle!, userId: postUserId!, content: postContent!, imageUrl: postImageUrl!, videoUrl: postVideoUrl!, guests: nil, comments: nil,lastUpdate:postLastupdate,isDeleted:false)
                 postlist.append(post)
                 
                 Logger.log(message: "post \(post.id) has been loaded from local cache",event: LogEvent.i)
@@ -117,7 +117,7 @@ class PostSql{
     
     func delete(id:String){
         var sqlite3_stmt: OpaquePointer? = nil
-        let query="DELETE FROM \(TABLE_NAME) where \(POST_ID)=\(id);"
+        let query="DELETE FROM \(TABLE_NAME) WHERE \(POST_ID) = \(id);"
         if sqlite3_prepare_v2(connection, query, -1, &sqlite3_stmt, nil) == SQLITE_OK {
             if sqlite3_step(sqlite3_stmt) == SQLITE_DONE {
                 Logger.log(message: "post \(id) has been deleted from local",event: LogEvent.i)
@@ -125,7 +125,8 @@ class PostSql{
                 Logger.log(message: "post \(id) couldnt be deleted from local",event: LogEvent.e)
             }
         } else {
-            Logger.log(message: "couldnt prepare local db delete statement",event: LogEvent.e)
+            let errorMessage = String.init(cString: sqlite3_errmsg(connection))
+            Logger.log(message: "couldnt prepare local db delete statement \(errorMessage)",event: LogEvent.e)
         }
         
         sqlite3_finalize(sqlite3_stmt)

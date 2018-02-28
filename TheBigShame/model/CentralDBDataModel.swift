@@ -97,8 +97,12 @@ class CentralDBDataModel{
             storeGuest()
         })
         
-        
-        
+    }
+    
+    func deletePost(post:Post,onComplete: @escaping (Post)->Void){
+        GuestHolderModel.instance.deleteMultipleGuestHolders(guests: post.guests, onComplete: {_ in
+            PostModel.instance.deletePost(post: post, onComplete: onComplete)
+        })
     }
     
 }

@@ -12,7 +12,7 @@ protocol NewGuestPopupDelegate{
     func onCreate(guest:Guest)
 }
 
-class NewGuestPopup: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+class NewGuestPopup: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate{
     
     @IBOutlet var spinner: UIActivityIndicatorView!
     @IBOutlet var guestDetails: UITextView!
@@ -24,6 +24,11 @@ class NewGuestPopup: UIViewController, UIImagePickerControllerDelegate, UINaviga
     var delegate:NewGuestPopupDelegate?
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        guestDetails.delegate = self
+        
+        guestDetails.textColor = UIColor.lightGray
+        
         gender.selectedSegmentIndex = 1
         
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
@@ -104,4 +109,19 @@ class NewGuestPopup: UIViewController, UIImagePickerControllerDelegate, UINaviga
         dismiss(animated: true, completion: nil)
     }
     
+    
+    //placeholder
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == UIColor.lightGray {
+            textView.text = nil
+            textView.textColor = UIColor.black
+        }
+    }
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = "תיאור"
+            textView.textColor = UIColor.lightGray
+        }
+    }
 }

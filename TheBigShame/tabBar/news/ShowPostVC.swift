@@ -8,8 +8,10 @@
 
 import UIKit
 
-class ShowPostVC: UIViewController ,UICollectionViewDelegate,UICollectionViewDataSource{
+class ShowPostVC: UIViewController ,UICollectionViewDelegate,UICollectionViewDataSource,EditingDelegate{
+  
 
+    @IBOutlet var creatorMenuView: PopupView!
     @IBOutlet var guestsCollectionView: UICollectionView!
     @IBOutlet var postVideo: UIWebView!
     @IBOutlet var dateText: UILabel!
@@ -24,6 +26,11 @@ class ShowPostVC: UIViewController ,UICollectionViewDelegate,UICollectionViewDat
         super.viewDidLoad()
         setData(post: post!)
         guestsCollectionView.delegate = self
+    
+        if AuthenticationModel.getCurrentUser()?.displayName != post?.userId && !AuthenticationModel.isAdministrator(){
+            creatorMenuView.isHidden = true
+        }
+    
     }
 
     func setData(post:Post){
@@ -61,6 +68,36 @@ class ShowPostVC: UIViewController ,UICollectionViewDelegate,UICollectionViewDat
         return cell
     }
     
+    @IBAction func onDelete(_ sender: Any) {
+        CentralDBDataModel.instance.deletePost(post: post!, onComplete: {
+            _ in
+            self.dismiss(animated: true, completion: nil)
+        })
+    }
+    @IBAction func onEdit(_ sender: Any) {
+        let showController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CreatePostNavigationController") as! CreatePostNavigationController
+        let createVC = showController.topViewController as! CreatePostViewController
+        
+        createVC.editingModePost = post
+        createVC.editingDelegate = self
+        self.present(showController, animated: true, completion: nil)
+
+        
+    }
+
+    func onEditDone(post: Post) {
+        self.post = post
+        viewDidLoad()
+    }
+    
+    
+    func onEditCancel() {
+        //implement
+    }
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }}
+
+

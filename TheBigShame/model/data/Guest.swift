@@ -28,11 +28,7 @@ class Guest:Hashable,FirebaseDataProtocol{
         self.lastUpdate=lastUpdate
         self.isDeleted = isDeleted
     }
-    
-    static func initByJson(json: Dictionary<String, Any>) -> FirebaseDataProtocol{
-        return Guest(json: json)
-    }
-    
+ 
     
     init(json:Dictionary<String,Any>){
         hashValue = json["id"] as! Int

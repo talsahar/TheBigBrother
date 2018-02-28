@@ -21,9 +21,10 @@ class GuestHolderModel{
     let notificationCenter = MyNotification<[GuestHolder]>(name: "guestHolderListNotification")
     
     private init() {
-       
-   }
-   
+        
+    }
+    
+    
     
     func storeMultipleGuests(list:[GuestHolder],onComplete:@escaping([GuestHolder])->Void){
         let dispatchTask = DispatchGroup()
@@ -45,24 +46,47 @@ class GuestHolderModel{
     }
     
     func loadAndObserve(){
+        GuestHolderFirebase.instance.clearObservers()
         let tableName=GuestHolderSql.instance.TABLE_NAME
         let lastupdateDate=LastUpdateTable.instnace.getLastUpdate(tableName: tableName)
         
         GuestHolderFirebase.instance.loadAllDataAndObserve(lastupdateDate) { holders in
             if !holders.isEmpty{
-            let holders = holders as! [GuestHolder]
-                holders.forEach{GuestHolderSql.instance.insert(holder: $0 )}
-                let newLastUpdate = holders.map{$0.lastUpdate?.toDouble()}.max(by: {$0! < $1!})
+                let holders = holders as! [GuestHolder]
+                holders.forEach{
+                    $0.isDeleted ? GuestHolderSql.instance.delete(guestHolderid: $0.id) : GuestHolderSql.instance.insert(holder: $0)
+                }
+                var newLastUpdate = holders.map{$0.lastUpdate?.toDouble()}.max(by: {$0! < $1!})
+                newLastUpdate = newLastUpdate!! + 1
                 LastUpdateTable.instnace.setLastUpdate(tableName: tableName, lastUpdate: Date.fromDouble(newLastUpdate!!))
-                
-                let guestsHolder=GuestHolderSql.instance.selectAll()
-                self.data = guestsHolder
-                self.notificationCenter.post(data: guestsHolder)
-                
+                self.loadAndObserve()
+                self.data = GuestHolderSql.instance.selectAll()
+                self.notificationCenter.post(data: self.data)
             }
-            
         }
+        self.data = GuestHolderSql.instance.selectAll()
+        self.notificationCenter.post(data: self.data)
         
+    }
+    
+    func deleteMultipleGuestHolders(guests:[GuestHolder],onComplete:@escaping([GuestHolder])->Void){
+        
+        let dispatchTask = DispatchGroup()
+        
+        guests.forEach{guest in
+            dispatchTask.enter()
+            deleteGuestHolder(guestHolder: guest, onComplete: {_ in dispatchTask.leave()})
+        }
+        dispatchTask.enter()
+        onComplete(guests)
+        
+    }
+    
+    func deleteGuestHolder(guestHolder:GuestHolder, onComplete:@escaping(GuestHolder)->Void){
+        guestHolder.isDeleted = true
+        guestHolder.hasChanged()
+        GuestHolderSql.instance.delete(guestHolderid: guestHolder.id)
+        GuestHolderFirebase.instance.store(data: guestHolder, onComplete: {_ in onComplete(guestHolder)})
     }
     
 }

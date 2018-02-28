@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import SwiftSpinner
 protocol RegisterVCDelegate{
     func onVerified(username:String)
 
@@ -29,11 +29,14 @@ class RegisterVC: UIViewController {
     
     @IBAction func registerButton(_ sender: Any) {
         if validFields() == true{
+            SwiftSpinner.show("Signing up..")
             AuthenticationModel.register(email: emailField.text!, password: passField.text!, nickname: nicknameField.text!, onSuccess: { (User) in
+                SwiftSpinner.hide()
                 self.dismiss(animated: true, completion: {self.delegate?.onVerified(username: User.displayName!)})
             }) { error in
                 Logger.log(message: error.localizedDescription, event: LogEvent.e)
                 self.errorLabel.text = "משתמש קיים"
+                SwiftSpinner.hide()
                 
             }
         }
@@ -51,11 +54,11 @@ class RegisterVC: UIViewController {
             return false
         }
         if Policy.isValidPass(str: passField.text!) == false{
-            errorLabel.text = "סיסמא לא חוקית, הכנס לפחות 6 תווים"
+            errorLabel.text = "סיסמא קצרה מידי"
             return false
         }
         
-        if passField.text! != passField.text{
+        if passField.text! != passConfirmField.text!{
             return false
         }
      return true

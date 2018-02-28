@@ -12,14 +12,25 @@ class GuestInfoTableVC: UIViewController, UITableViewDelegate, UITableViewDataSo
     
     var dataObserver:Any?
     
-    @IBOutlet var addButton: UIButton!
+    @IBOutlet var navigation: UINavigationBar!
+    
     @IBOutlet var tableView: UITableView!
     var data:[Guest]?
     override func viewDidLoad() {
         super.viewDidLoad()
-        addButton.isHidden = !AuthenticationModel.isAdministrator()
+        
+        let backgroundImage = UIImage(named: "livingRoomBackground")
+        let imageView = UIImageView(image: backgroundImage)
+        imageView.contentMode = .scaleAspectFill
+        self.tableView.backgroundView = imageView
+        
+        if !AuthenticationModel.isAdministrator(){
+            navigation.items?.removeLast()
+                 }
+        
+  
         dataObserver = GuestModel.instance.notificationCenter.observe(callback: {
-            self.data = $0
+            self.data = $0?.filter{$0.isDeleted == false}
             self.tableView.reloadData()
         })
         data = GuestModel.instance.data.filter{!$0.isDeleted}

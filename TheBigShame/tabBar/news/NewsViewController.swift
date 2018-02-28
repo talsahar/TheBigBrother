@@ -19,6 +19,10 @@ class NewsViewController: UIViewController, UITableViewDelegate,UITableViewDataS
         
         dataObserver = CentralDBDataModel.instance.hasSyncedNotification.observe(callback: {posts in
             self.posts = posts!
+            self.posts.sort(by: {
+                p1,p2 in
+                p1.date.toDouble()>p2.date.toDouble()
+            })
             self.tableView.reloadData()
         })
         CentralDBDataModel.instance.loadAllPostsAndObserve()
@@ -28,8 +32,9 @@ class NewsViewController: UIViewController, UITableViewDelegate,UITableViewDataS
     override func viewDidAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        let backgroundImage = UIImage(named: "whiteWoodenBackground")
+        let backgroundImage = UIImage(named: "livingRoomBackground")
         let imageView = UIImageView(image: backgroundImage)
+        imageView.contentMode = .scaleAspectFill
         self.tableView.backgroundView = imageView
        
     }

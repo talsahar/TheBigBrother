@@ -17,10 +17,10 @@ class GuestHolder:FirebaseDataProtocol{
     var guest:Guest
     var postId:String
     var lastUpdate:Date?
+    var isDeleted:Bool
     
     
-    
-    init(id:String?,postId:String,guest:Guest,lastupdate:Date?){
+    init(id:String?,postId:String,guest:Guest,lastupdate:Date?,isDeleted:Bool){
         self.id = (id == nil) ? UUID().uuidString : id!
         self.postId = postId
         self.guest = guest
@@ -28,17 +28,16 @@ class GuestHolder:FirebaseDataProtocol{
             self.lastUpdate = lastupdate
 
         }
+        self.isDeleted = isDeleted
     }
-    static func initByJson(json: Dictionary<String, Any>) -> FirebaseDataProtocol{
-        return GuestHolder(json: json)
-    }
+    
     init(json:Dictionary<String, Any>){
         self.id=json["id"] as! String
         self.postId=json["postId"] as! String
         let name = json["guest"] as! String
         guest=GuestModel.instance.getByName(name: name)!
         lastUpdate=Date.fromDouble(json["lastUpdate"] as! Double)
-        
+        self.isDeleted = json["isDeleted"] as! Bool
     }
     
     func buildJson()->Dictionary<String, Any>{
@@ -47,6 +46,7 @@ class GuestHolder:FirebaseDataProtocol{
         json["postId"] = postId
         json["guest"] = guest.name
         json["lastUpdate"]=lastUpdate?.toDouble()
+        json["isDeleted"] = isDeleted
         return json
     }
     func hasChanged(){
@@ -57,7 +57,7 @@ class GuestHolder:FirebaseDataProtocol{
     
     static func buildList(postId:String,guests:[Guest]?)->[GuestHolder]{
         var guestlist=[GuestHolder]()
-            guests?.forEach{guestlist.append(GuestHolder(id: nil, postId: postId, guest: $0, lastupdate: nil))}        
+        guests?.forEach{guestlist.append(GuestHolder(id: nil, postId: postId, guest: $0, lastupdate: nil,isDeleted:false))}
         return guestlist
     }
     func firebaseId() -> String {

@@ -35,18 +35,26 @@ class PostModel{
         PostFirebase.instance.loadAllDataAndObserve(lastupdateDate) { posts in
             if posts.count > 0{
                 let posts = posts as! [Post]
-                posts.forEach{PostSql.instance.insert(post: $0)}
+                posts.forEach{
+                    $0.isDeleted ? PostSql.instance.delete(id: $0.id) : PostSql.instance.insert(post: $0)}
                 
                 var newLastUpdate = posts.map{$0.lastUpdate?.toDouble()}.max(by: {$0! < $1!})
                 newLastUpdate = newLastUpdate!! + 1
                 LastUpdateTable.instnace.setLastUpdate(tableName: tableName, lastUpdate: Date.fromDouble(newLastUpdate!!))
-                
                 self.loadAndObserve()
+                self.data = PostSql.instance.selectAll()
+                self.notificationCenter.post(data: self.data)
             }
-            self.data = PostSql.instance.selectAll()
-            self.notificationCenter.post(data: self.data)
+           
         }
-        
+        self.data = PostSql.instance.selectAll()
+        self.notificationCenter.post(data: self.data)
+    }
+    
+    func deletePost(post:Post, onComplete:@escaping (Post)->Void){
+        post.isDeleted = true
+        post.setChanged()
+        savePost(data: post, onComplete: onComplete)
     }
 }
 

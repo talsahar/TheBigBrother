@@ -12,7 +12,6 @@ import Firebase
 protocol FirebaseDataProtocol{
     func buildJson() -> Dictionary<String,Any>
     func firebaseId() -> String
-    static func initByJson(json:Dictionary<String,Any>)->FirebaseDataProtocol
 }
 
 

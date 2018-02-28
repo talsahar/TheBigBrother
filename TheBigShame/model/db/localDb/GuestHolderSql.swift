@@ -82,7 +82,7 @@ class GuestHolderSql{
                 let _postId = String(validatingUTF8:sqlite3_column_text(sqlite3_stmt,2))
                 let _lastUpdate =   Date.fromDouble(Double(sqlite3_column_double(sqlite3_stmt,3)))
                 
-                let guest=GuestHolder(id: _id, postId: _postId!, guest: GuestModel.instance.getByName(name: _guestName!)!,lastupdate:_lastUpdate)
+                let guest=GuestHolder(id: _id, postId: _postId!, guest: GuestModel.instance.getByName(name: _guestName!)!,lastupdate:_lastUpdate,isDeleted: false)
                 guestList.append(guest)
                 
                 Logger.log(message: "guest \(String(describing: _id)) has been loaded from local db",event: LogEvent.i)
@@ -98,7 +98,7 @@ class GuestHolderSql{
     
     func delete(guestHolderid:String){
         var sqlite3_stmt: OpaquePointer? = nil
-        let query="DELETE FROM \(TABLE_NAME) where \(ROW_ID)=\(guestHolderid);"
+        let query="DELETE FROM \(TABLE_NAME) WHERE \(ROW_ID) = \(guestHolderid);"
         if sqlite3_prepare_v2(connection, query, -1, &sqlite3_stmt, nil) == SQLITE_OK {
             if sqlite3_step(sqlite3_stmt) == SQLITE_DONE {
                 Logger.log(message: "GuestHolder \(guestHolderid) has been deleted from local",event: LogEvent.i)
