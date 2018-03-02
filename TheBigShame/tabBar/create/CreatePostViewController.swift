@@ -107,8 +107,24 @@ class CreatePostViewController: UITableViewController,UIImagePickerControllerDel
         self.tableView.backgroundView = imageView
     }
     
- 
+    func verifyFields()->Bool{
+        if (titleField.text?.count)! < 5{
+            navigationBar.title = "כותרת קצרה מידי"
+            return false
+        }
+        if content.text.count < 30 {
+            navigationBar.title = "תוכן קצר מידי, הכנס לפחות 30 תווים"
+       return false }
+        return true
+        
+        
+    }
+    
     @IBAction func onComplete(_ sender: Any) {
+        if verifyFields() == false{
+            return
+        }
+        
         SwiftSpinner.show("Storing your Post..")
         let chosenGuests=GuestModel.filterChosens(list: guestMapArr!)
         let post = Post(id: UUID().uuidString, date: Date(), title: titleField.text!, userId: (AuthenticationModel.getCurrentUser()?.displayName)!, content: content.text, imageUrl: nil, videoUrl: videoUrl?.absoluteString, guests: chosenGuests, comments: nil, lastUpdate: nil,isDeleted: false)

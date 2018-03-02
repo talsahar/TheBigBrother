@@ -8,7 +8,9 @@
 
 import UIKit
 
-class VideosTab: UIViewController,UITableViewDelegate,UITableViewDataSource {
+class VideosTab: UIViewController,UITableViewDelegate,UITableViewDataSource ,NewVideoVCProtocol{
+    
+    
 
     @IBOutlet var tableview: UITableView!
     var posts=[Post]()
@@ -50,8 +52,10 @@ class VideosTab: UIViewController,UITableViewDelegate,UITableViewDataSource {
     }
 
    
-    @IBAction func onAddButton(_ sender: Any) {
-    }
+    @IBAction func onAddVideo(_ sender: Any) {
+        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NewVideoVC") as! NewVideoVC
+        vc.delegate = self as! NewVideoVCProtocol
+        self.present(vc, animated: true, completion: nil)     }
     
      func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
@@ -67,7 +71,14 @@ class VideosTab: UIViewController,UITableViewDelegate,UITableViewDataSource {
         return cell
     }
     
-
+   
+    func onCancel() {
+        
+    }
+    
+    func onAdd(post: Post) {
+        
+    }
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

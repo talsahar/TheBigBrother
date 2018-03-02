@@ -29,6 +29,7 @@
 		8456100E202E547000841DA0 /* MyNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8456100D202E547000841DA0 /* MyNotification.swift */; };
 		845A2080202714D100DBAC5A /* GuestCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845A207F202714D100DBAC5A /* GuestCollectionViewCell.swift */; };
 		845A208220271E0900DBAC5A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 845A208120271E0900DBAC5A /* Assets.xcassets */; };
+		846400F720481A83007B65D4 /* NewVideoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846400F620481A83007B65D4 /* NewVideoVC.swift */; };
 		847B718B2025288900DA330F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847B718A2025288900DA330F /* AppDelegate.swift */; };
 		847B71902025288900DA330F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 847B718E2025288900DA330F /* Main.storyboard */; };
 		847B71952025288900DA330F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 847B71932025288900DA330F /* LaunchScreen.storyboard */; };
@@ -96,6 +97,7 @@
 		8456100D202E547000841DA0 /* MyNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyNotification.swift; sourceTree = "<group>"; };
 		845A207F202714D100DBAC5A /* GuestCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestCollectionViewCell.swift; sourceTree = "<group>"; };
 		845A208120271E0900DBAC5A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		846400F620481A83007B65D4 /* NewVideoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewVideoVC.swift; sourceTree = "<group>"; };
 		847B71872025288900DA330F /* TheBigShame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TheBigShame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		847B718A2025288900DA330F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		847B718F2025288900DA330F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -351,6 +353,7 @@
 			children = (
 				84C033012042F6880085E08B /* VideosTab.swift */,
 				84C033032042F77D0085E08B /* VideosTabCell.swift */,
+				846400F620481A83007B65D4 /* NewVideoVC.swift */,
 			);
 			path = videos;
 			sourceTree = "<group>";
@@ -564,6 +567,7 @@
 				842872992035A1C0006A048C /* TabBarVC.swift in Sources */,
 				8456100B202E44A200841DA0 /* LastUpdateTable.swift in Sources */,
 				847B71AB2025395F00DA330F /* Comment.swift in Sources */,
+				846400F720481A83007B65D4 /* NewVideoVC.swift in Sources */,
 				847B71A52025369400DA330F /* Post.swift in Sources */,
 				84D0383D203F872B00E19919 /* NewGuestPopup.swift in Sources */,
 				847C8210202D123700FB67CB /* ImageStorageModel.swift in Sources */,

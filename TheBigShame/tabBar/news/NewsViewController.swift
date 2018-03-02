@@ -18,7 +18,13 @@ class NewsViewController: UIViewController, UITableViewDelegate,UITableViewDataS
         super.viewDidLoad()
         
         dataObserver = CentralDBDataModel.instance.hasSyncedNotification.observe(callback: {posts in
-            self.posts = posts!
+            // filter only videos
+            self.posts = (posts?.filter({ (post) -> Bool in
+                post.content != ""
+            }))!
+            
+            
+            
             self.posts.sort(by: {
                 p1,p2 in
                 p1.date.toDouble()>p2.date.toDouble()

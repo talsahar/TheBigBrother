@@ -9,6 +9,7 @@
 import UIKit
 
 class GuestInfoTableVC: UIViewController, UITableViewDelegate, UITableViewDataSource,NewGuestPopupDelegate{
+   
     
     var dataObserver:Any?
     
@@ -68,5 +69,7 @@ class GuestInfoTableVC: UIViewController, UITableViewDelegate, UITableViewDataSo
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-
+    
+  
+    
 }
