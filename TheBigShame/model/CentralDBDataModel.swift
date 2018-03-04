@@ -58,7 +58,6 @@ class CentralDBDataModel{
     }
     
     func loadAllPostsAndObserve(){
-        GuestModel.instance.loadAndObserve()
         PostModel.instance.loadAndObserve()
         GuestHolderModel.instance.loadAndObserve()
         
@@ -100,9 +99,10 @@ class CentralDBDataModel{
     }
     
     func deletePost(post:Post,onComplete: @escaping (Post)->Void){
-        GuestHolderModel.instance.deleteMultipleGuestHolders(guests: post.guests, onComplete: {_ in
-            PostModel.instance.deletePost(post: post, onComplete: onComplete)
-        })
+        Logger.log(message: "Not implemented - to fix", event: .w)
+//        GuestHolderModel.instance.deleteMultipleGuestHolders(guests: post.guests, onComplete: {_ in
+//            PostModel.instance.deletePost(post: post, onComplete: onComplete)
+//        })
     }
     
 }
